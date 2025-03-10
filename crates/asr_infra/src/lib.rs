@@ -15,7 +15,7 @@ pub async fn initialed_db(dsn: &str, max_conns: u32) -> PgPool {
   db
 }
 
-async fn connect_to_sql_server() -> Result<Client<tokio_util::compat::Compat<TcpStream>>, Box<dyn std::error::Error>> {
+pub async fn connect_to_sql_server() -> Result<Client<tokio_util::compat::Compat<TcpStream>>, Box<dyn std::error::Error>> {
   let mut config = Config::new();
   config.host("localhost");  // Change to your server
   config.port(1433);         // Default SQL Server port
