@@ -1,0 +1,9 @@
+2025-03-10T10:40:02.145936Z DEBUG sqlx::query: summary="SELECT current_database()" db.statement="" rows_affected=0 rows_returned=1 elapsed=8.4363ms elapsed_secs=0.0084363
+2025-03-10T10:40:02.150698Z DEBUG sqlx::query: summary="SELECT pg_advisory_lock($1)" db.statement="" rows_affected=1 rows_returned=1 elapsed=4.293ms elapsed_secs=0.004293
+2025-03-10T10:40:02.152431Z  INFO sqlx::postgres::notice: relation "_sqlx_migrations" already exists, skipping
+2025-03-10T10:40:02.155342Z DEBUG sqlx::query: summary="CREATE TABLE IF NOT …" db.statement="\n\nCREATE TABLE IF NOT EXISTS _sqlx_migrations (\n  version BIGINT PRIMARY KEY,\n  description TEXT NOT NULL,\n  installed_on TIMESTAMPTZ NOT NULL DEFAULT now(),\n  success BOOLEAN NOT NULL,\n  checksum BYTEA NOT NULL,\n  execution_time BIGINT NOT NULL\n);\n" rows_affected=0 rows_returned=0 elapsed=1.7267ms elapsed_secs=0.0017267
+2025-03-10T10:40:02.160977Z DEBUG sqlx::query: summary="SELECT version FROM _sqlx_migrations …" db.statement="\n\nSELECT\n  version\nFROM\n  _sqlx_migrations\nWHERE\n  success = false\nORDER BY\n  version\nLIMIT\n  1\n" rows_affected=0 rows_returned=0 elapsed=4.7471ms elapsed_secs=0.0047471
+2025-03-10T10:40:02.164655Z DEBUG sqlx::query: summary="SELECT version, checksum FROM …" db.statement="\n\nSELECT\n  version,\n  checksum\nFROM\n  _sqlx_migrations\nORDER BY\n  version\n" rows_affected=2 rows_returned=2 elapsed=2.9324ms elapsed_secs=0.0029324
+2025-03-10T10:40:02.166114Z DEBUG sqlx::query: summary="SELECT current_database()" db.statement="" rows_affected=0 rows_returned=1 elapsed=1.036ms elapsed_secs=0.001036
+2025-03-10T10:40:02.168903Z DEBUG sqlx::query: summary="SELECT pg_advisory_unlock($1)" db.statement="" rows_affected=1 rows_returned=1 elapsed=2.4773ms elapsed_secs=0.0024773
+2025-03-10T10:40:02.170302Z  INFO asr_app: Server is running on port: 0.0.0.0:3333

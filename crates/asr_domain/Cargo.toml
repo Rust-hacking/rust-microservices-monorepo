@@ -8,3 +8,5 @@ modql = { version = "0.3.10", features = ["with-sea-query"] }
 sea-query = "0.30.7"
 serde = { version = "1.0.204", features = ["derive"] }
 sqlx = { version = "0.7.4", features = ["postgres"] }
+tiberius = { version = "0.5", features = ["chrono", "tokio", "tds73"] }
+chrono = "0.4"
