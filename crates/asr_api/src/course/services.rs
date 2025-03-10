@@ -1,6 +1,6 @@
 use axum::{extract::State, Json};
-use jd_core::AppResult;
-use jd_domain::user::{RequestCreateCourse, ResponseCreateCourse};
+use asr_core::AppResult;
+use asr_domain::user::{RequestCreateCourse, ResponseCreateCourse};
 use sqlx::PgPool;
 
 use super::CourseDmc;
@@ -10,6 +10,6 @@ impl CourseDmc {
     State(db): State<PgPool>,
     Json(req): Json<RequestCreateCourse>,
   ) -> AppResult<Json<ResponseCreateCourse>> {
-    jd_infra::user::create::<CourseDmc, _, _>(db, req).await
+    asr_infra::user::create::<CourseDmc, _, _>(db, req).await
   }
 }

@@ -1,5 +1,5 @@
 [package]
-name = "jd_domain"
+name = "asr_domain"
 version = "0.1.0"
 edition = "2021"
 

@@ -1,6 +1,6 @@
 use axum::Json;
-use jd_core::{error::AppError, AppResult};
-use jd_domain::user::{
+use asr_core::{error::AppError, AppResult};
+use asr_domain::user::{
   request::{RequestGetUser, RequestUpdateUser},
   User,
 };

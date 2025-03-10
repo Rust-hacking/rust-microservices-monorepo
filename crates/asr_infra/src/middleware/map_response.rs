@@ -4,7 +4,7 @@ use axum::{
   response::{IntoResponse, Response},
   Json,
 };
-use jd_core::{error::AppError, AppResult};
+use asr_core::{error::AppError, AppResult};
 use serde::Serialize;
 use serde_json::{json, to_value, Value};
 use std::sync::Arc;

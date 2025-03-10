@@ -1,6 +1,6 @@
-use jd_core::config::ProdConfig;
-use jd_infra::initialed_db;
-use jd_infra::middleware::{map_response, mw_auth};
+use asr_core::config::ProdConfig;
+use asr_infra::initialed_db;
+use asr_infra::middleware::{map_response, mw_auth};
 mod trace;
 use trace::tracing_init;
 
@@ -20,7 +20,7 @@ async fn main() {
   let pool = initialed_db(&cfg.postgres.dsn, cfg.postgres.max_conns).await;
 
   let app = Router::new()
-    .merge(jd_api::user_routes())
+    .merge(asr_api::user_routes())
     .layer(middleware::map_response(map_response::mw_map_response)) // 1
     .layer(middleware::from_fn_with_state(pool.clone(), mw_auth::mw_auth)) // 2
     .with_state(pool);

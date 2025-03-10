@@ -1,5 +1,5 @@
 [package]
-name = "jd_core"
+name = "asr_core"
 version = "0.1.0"
 edition = "2021"
 

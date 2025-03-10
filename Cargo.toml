@@ -1,11 +1,11 @@
 [workspace]
 members = [
-  "crates/jd_api",
-  "crates/jd_app",
-  "crates/jd_core",
-  "crates/jd_domain",
-  "crates/jd_infra",
-  "crates/jd_utils"
+  "crates/asr_api",
+  "crates/asr_app",
+  "crates/asr_core",
+  "crates/asr_domain",
+  "crates/asr_infra",
+  "crates/asr_utils"
 ]
 resolver = "2"
 

@@ -1,5 +1,5 @@
 [package]
-name = "jd_app"
+name = "asr_app"
 version = "0.1.0"
 edition = "2021"
 
@@ -16,8 +16,8 @@ uuid = { version = "1.10.0", features = ["v4", "fast-rng"] }
 
 
 # Members
-jd_core = { path = "../jd_core" }
-jd_infra = { path = "../jd_infra" }
-jd_api = { path = "../jd_api" }
+asr_core = { path = "../asr_core" }
+asr_infra = { path = "../asr_infra" }
+asr_api = { path = "../asr_api" }
 tracing-appender = "0.2.3"
 chrono = "0.4.38"
