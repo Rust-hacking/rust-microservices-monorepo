@@ -1,0 +1,14 @@
+
+https://github.com/launchbadge/sqlx/blob/main/sqlx-cli/README.md
+
+cargo install sqlx-cli --version 0.7.4
+
+Migration:
+sqlx migrate add -r create_users_table --source ./crates/asr_infra/migrations/
+sqlx migrate run --source ./crates/asr_infra/migrations/ --database-url postgres://postgres:password@localhost:5444/postgres
+sqlx migrate info --source ./crates/asr_infra/migrations/ --database-url postgres://postgres:password@localhost:5444/postgres
+sqlx migrate revert --source ./crates/asr_infra/migrations/ --database-url postgres://postgres:password@localhost:5444/postgres
+
+
+
+sqlx migrate add -r create_courses_table --source ./crates/asr_infra/migrations/
