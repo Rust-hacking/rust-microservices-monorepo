@@ -1,17 +1,41 @@
 use asr_core::config::ProdConfig;
-use asr_infra::{initialed_db, connect_to_sql_server};
+use asr_infra::{initialed_db, connect_to_sql_server, DbPool};
 use asr_infra::middleware::{map_response, mw_auth};
 mod trace;
 use trace::tracing_init;
 use tiberius::{ AuthMethod, Client, Config};
 use chrono::{NaiveDateTime};
+use std::sync::Arc;
 
 use axum::{
   middleware::{self},
   Router,
+  extract::State, Json,
+  routing::get
 };
 use dotenv::dotenv;
 use tracing::info;
+
+#[derive(serde::Serialize)]
+struct User {
+  id: i32,
+  name: String,
+}
+
+async fn get_users(State(pool): State<Arc<DbPool>>) -> Json<Vec<User>> {
+  let mut conn = pool.get().await.expect("Failed to get DB connection");
+
+  let query = "SELECT id, name FROM Users";
+  let rows = conn.simple_query(query).await.unwrap().into_first_result().await.unwrap();
+
+  let users: Vec<User> = rows.into_iter().map(|row| User {
+    id: row.get::<i32, _>(0).unwrap(),
+    name: row.get::<&str, _>(1).unwrap().to_string(),
+  }).collect();
+
+  Json(users)
+}
+
 
 #[tokio::main]
 async fn main() {
@@ -19,18 +43,12 @@ async fn main() {
   let _gaurd = tracing_init();
 
   let cfg = ProdConfig::from_env().expect("Cann't get env");
-  let pool = initialed_db(&cfg.postgres.dsn, cfg.postgres.max_conns).await;
 
-  if let Err(e) = check().await {
-    eprintln!("Error during database check: {}", e);
-  }
+  let db_pool = asr_infra::create_pool(&cfg).await.expect("Failed to create DB pool");
+  let db_state = Arc::new(db_pool);
 
 
-  let app = Router::new()
-    .merge(asr_api::user_routes())
-    .layer(middleware::map_response(map_response::mw_map_response)) // 1
-    .layer(middleware::from_fn_with_state(pool.clone(), mw_auth::mw_auth)) // 2
-    .with_state(pool);
+  let app = Router::new().route("/users", get(get_users)).with_state(db_state.clone());
 
   let listener = tokio::net::TcpListener::bind(cfg.web.addr).await.unwrap();
   info!("Server is running on port: {}", listener.local_addr().unwrap());
@@ -38,10 +56,8 @@ async fn main() {
 }
 
 
-async fn check() -> Result<(), Box<dyn std::error::Error>> {
-
-
-  let mut client = connect_to_sql_server().await?;
+async fn check(cfg: &ProdConfig) -> Result<(), Box<dyn std::error::Error>> {
+  let mut client = connect_to_sql_server(&cfg).await?;
 
   let query = "SELECT id, name, email, created_at FROM users";
   let rows = client.simple_query(query).await?.into_results().await?;
@@ -58,3 +74,5 @@ async fn check() -> Result<(), Box<dyn std::error::Error>> {
 
   Ok(())
 }
+
+

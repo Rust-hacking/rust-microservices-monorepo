@@ -14,18 +14,29 @@ pub struct Postgres {
   pub max_conns: u32,
 }
 
+#[derive(Deserialize)]
+pub struct SqlServer {
+  pub host: String,
+  pub port: u16,
+  pub username: String,
+  pub password: String,
+  pub database: String,
+  pub dns: String,
+  pub max_conns: u32,
+}
+
 // Env Prod
 #[derive(Deserialize)]
 pub struct ProdConfig {
   pub web: WebConfig,
-  pub postgres: Postgres,
+  pub db: SqlServer,
 }
 
 // Env Dev
 #[derive(Deserialize)]
 pub struct DevConfig {
-  pub devweb: WebConfig,
-  pub devpostgres: Postgres,
+  pub dev_web: WebConfig,
+  pub dev_db: SqlServer,
 }
 
 // Wrap
@@ -50,7 +61,7 @@ impl ProdConfig {
           .map_err(AppError::Config)?
           .try_deserialize::<ProdEnv>()
           .map_err(AppError::Config)?;
-        Ok(ProdConfig { web: config.app.web, postgres: config.app.postgres })
+        Ok(ProdConfig { web: config.app.web, db: config.app.db })
       },
       _ => {
         let config = config::Config::builder()
@@ -59,7 +70,7 @@ impl ProdConfig {
           .map_err(AppError::Config)?
           .try_deserialize::<DevEnv>()
           .map_err(AppError::Config)?;
-        Ok(ProdConfig { web: config.app.devweb, postgres: config.app.devpostgres })
+        Ok(ProdConfig { web: config.app.dev_web, db: config.app.dev_db })
       },
     }
   }
