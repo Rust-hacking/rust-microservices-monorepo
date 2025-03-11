@@ -34,31 +34,10 @@ async fn main() {
       .layer(middleware::from_fn_with_state(db_state.clone(), mw_auth::mw_auth)) // 2
       .with_state(db_state.clone());
 
-  // let app = Router::new().route("/users", get(get_users)).with_state(db_state.clone());
-
   let listener = tokio::net::TcpListener::bind(cfg.web.addr).await.unwrap();
   info!("Server is running on port: {}", listener.local_addr().unwrap());
   axum::serve(listener, app).await.unwrap();
 }
 
-
-// async fn check(cfg: &ProdConfig) -> Result<(), Box<dyn std::error::Error>> {
-//   let mut client = connect_to_sql_server(&cfg).await?;
-//
-//   let query = "SELECT id, name, email, created_at FROM users";
-//   let rows = client.simple_query(query).await?.into_results().await?;
-//
-//   // Print results
-//   for row in rows[0].iter() {
-//     let id: i32 = row.get("id").unwrap();
-//     let name: &str = row.get("name").unwrap();
-//     let email: &str= row.get("email").unwrap();
-//     let created_at: NaiveDateTime = row.get("created_at").unwrap();
-//
-//     println!("ID: {}, Name: {}, Email: {}, Created At: {}", id, name, email, created_at);
-//   }
-//
-//   Ok(())
-// }
 
 

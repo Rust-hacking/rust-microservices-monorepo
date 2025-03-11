@@ -8,12 +8,13 @@ pub struct RequestGetUser {
 
 #[derive(Deserialize, Fields)]
 pub struct RequestCreateUser {
-  pub id: i32,
   pub name: String,
+  pub email: String
 }
 
 #[derive(Deserialize, Fields)]
 pub struct RequestUpdateUser {
   pub id: i32,
   pub name: String,
+  pub email: String
 }

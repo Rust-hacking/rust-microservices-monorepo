@@ -8,8 +8,9 @@ use super::UserDmc;
 
 pub fn routes() -> Router<Arc<DbPool>> {
   Router::new()
-    // .route("/user", post(UserDmc::create_user)) // login, admin - DCL
-    .route("/user/:id", get(UserDmc::get_user_by_id).delete(UserDmc::delete_user))
+    .route("/user", post(UserDmc::create_user)) // login, admin - DCL
+      .route("/user/:id", get(UserDmc::get_user_by_id))
+    // .route("/user/:id", get(UserDmc::get_user_by_id).delete(UserDmc::delete_user))
     .route("/users", get(UserDmc::get_users))
-    .route("/user/:id", patch(UserDmc::update_user))
+    // .route("/user/:id", patch(UserDmc::update_user))
 }
