@@ -3,17 +3,17 @@ use serde::Deserialize;
 
 #[derive(Deserialize, Fields)]
 pub struct RequestGetUser {
-  pub id: i64,
+  pub id: i32,
 }
 
 #[derive(Deserialize, Fields)]
 pub struct RequestCreateUser {
-  pub pk_user_id: i64,
-  pub username: String,
+  pub id: i32,
+  pub name: String,
 }
 
 #[derive(Deserialize, Fields)]
 pub struct RequestUpdateUser {
-  pub id: i64,
-  pub username: String,
+  pub id: i32,
+  pub name: String,
 }

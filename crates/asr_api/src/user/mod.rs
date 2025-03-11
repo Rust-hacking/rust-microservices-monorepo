@@ -8,6 +8,6 @@ pub use routes::routes;
 pub struct UserDmc;
 
 impl DMC for UserDmc {
-  const SCHEMA: &'static str = "user";
+  const SCHEMA: &'static str = "learning";
   const TABLE: &'static str = "tbl_users";
 }

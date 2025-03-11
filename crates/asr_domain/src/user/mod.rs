@@ -7,26 +7,26 @@ pub mod response;
 
 #[derive(Serialize, FromRow, Fields)]
 pub struct User {
-  pub pk_user_id: i64,
-  pub username: String,
+  pub id: i32,
+  pub name: String,
 }
 
 #[derive(Serialize, FromRow, Fields)]
 pub struct Course {
-  pub pk_course_id: i64,
+  pub id: i32,
   pub title: String,
   pub description: String,
 }
 
 #[derive(Deserialize, FromRow, Fields)]
 pub struct RequestCreateCourse {
-  pub pk_course_id: i64,
+  pub id: i32,
   pub title: String,
   pub description: String,
 }
 
 #[derive(Serialize, FromRow, Fields)]
 pub struct ResponseCreateCourse {
-  pub pk_course_id: i64,
+  pub id: i32,
   pub title: String,
 }
